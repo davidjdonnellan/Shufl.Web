@@ -1,1 +1,103 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'src/assets/scss/variables/colours';
+@import 'src/assets/scss/variables/dimensions';
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+
+    background-image: radial-gradient(circle, $background-gradient-primary-colour 0%, $background-gradient-secondary-colour 75%);
+    color: $primary-foreground-colour;
+
+    margin: 0;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    .card {
+        background-color: $primary-background-colour;
+
+        position: absolute;
+        left: 5%;
+        right: 5%;
+
+        border-radius: $primary-border-radius;
+    }
+
+    .button {
+        color: $primary-foreground-colour;
+        background-image: linear-gradient(to left, $secondary-foreground-colour-hover 50%, $secondary-foreground-colour 50%);
+        background-size: 200% 100%;
+
+        margin-bottom: 25px;
+
+        border-radius: $primary-border-radius;
+
+        -webkit-transition: background-position 0.5s ease-in-out;
+        -moz-transition: background-position 0.5s ease-in-out;
+        transition: background-position 0.5s ease-in-out;
+
+        user-select: none;
+
+        cursor: pointer;
+    
+        &:hover {
+            background-position: -100% 0;
+        }
+    }
+}
+
+@media (min-width: 475px) and (max-width: 765px) {
+    body {
+        .card {
+            left: 10%;
+            right: 10%;
+        }
+    }
+}
+
+@media (min-width: 765px) and (max-width: 1024px) {
+    body {
+        .card {
+            left: 20%;
+            right: 20%;
+        }
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1365px) {
+    body {
+        .card {
+            left: 30%;
+            right: 30%;
+        }
+    }
+}
+
+@media (min-width: 1365px) and (max-width: 1920px) {
+    body {
+        .card {
+            left: 35%;
+            right: 35%;
+        }
+    }
+}
+
+@media (min-width: 1920px) and (max-width: 2560px) {
+    body {
+        .card {
+            left: 38%;
+            right: 38%;
+        }
+    }
+}
+
+@media (min-width: 2560px) {
+    body {
+        .card {
+            left: 42%;
+            right: 42%;
+        }
+    }
+}

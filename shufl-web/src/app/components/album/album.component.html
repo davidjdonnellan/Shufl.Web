@@ -1,0 +1,22 @@
+<div class="card" [ngClass]="{ 'loaded': dataLoaded }">
+    <div class="album-info-container">
+        <div class="album-cover">
+            <img src="{{ albumCoverArtUrl }}" alt="{{ albumData.name }}">
+        </div>
+        <h2>{{ albumData.name }}</h2>
+        <div class="artists-container">
+            <a *ngFor="let artist of albumData.artists" class="artist-link" href="/artist/{{ artist.id }}" [class.disabled]="{ disabled: artist.name === 'Various Artists' }">{{ artist.name }}</a>
+        </div>
+        <p>{{ albumData.releaseDate | date: 'MMMM yyyy' }}</p>
+        <a class="button" href="{{ albumData.url }}" target="new"><img src="assets/img/spotify-logo.png"><p>Open</p></a>
+    </div>
+    <div class="track-list-container">
+        <app-track-list-item 
+            *ngFor="let track of albumData.tracks" 
+            [trackNumber]="track.trackNumber"
+            [trackName]="track.name"
+            [trackArtists]="track.artists"
+            [trackDuration]="track.duration"
+            [trackUrl]="track.url"></app-track-list-item>
+    </div>
+</div>

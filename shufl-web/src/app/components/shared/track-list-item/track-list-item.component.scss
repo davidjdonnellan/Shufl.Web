@@ -1,0 +1,174 @@
+@import 'src/assets/scss/variables/colours';
+
+.track {
+    height: 45px;
+
+    padding: 5px;
+
+    display: flex;
+
+    border-bottom: 1px solid $tertiary-foreground-colour;
+
+    cursor: pointer;
+
+    &:hover {
+        background-color: $primary-background-colour-hover;
+    }
+
+    div {
+        padding: 5px;
+
+        display: flex;
+        align-items: center;
+
+        overflow: hidden;
+
+        p {
+            margin: 0;
+
+            vertical-align: middle;
+
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .track-number {
+        width: 25px;
+
+        p {
+            width: 100%;
+
+            text-align: center;
+        }
+    }
+
+    .track-name {
+        width: calc(70% - 25px);
+    }
+
+    .artists-container {
+        width: 0px;
+
+        display: none;
+
+        white-space: nowrap;
+
+        .artist-link {
+            color: $tertiary-foreground-colour;
+
+            text-decoration: none;
+
+            overflow: hidden;
+            text-overflow: ellipsis;
+    
+            &::after {
+                content: ", ";
+                margin-right: 3px;
+            }
+    
+            &:last-child::after {
+                content: "";
+            }
+    
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .track-duration {
+        width: 0;
+
+        display: none;
+
+        p {
+            text-align: center;
+        }
+    }
+
+    .button {
+        width: 30%;
+        height: 30px;
+
+        padding: 5px;
+        margin-bottom: 0px;
+
+        display: flex;
+
+        text-decoration: none;
+
+        img {
+            width: 20px;
+            height: 20px;
+
+            margin-top: 5px;
+            margin-right: 5px;
+        }
+
+        p {
+            margin: auto;
+        }
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1365px) {
+    .track {
+        .track-duration {
+            width: 10%;
+
+            display: inherit;
+        }
+
+        .button {
+            width: 20%
+        }
+    }
+}
+
+@media (min-width: 1365px) and (max-width: 1920px) {
+    .track {
+        .track-name {
+            width: 60%;
+        }
+
+        .artists-container {
+            width: 25%;
+            display: inherit;
+        }
+
+        .track-duration {
+            width: 5%;
+
+            display: inherit;
+        }
+
+        .button {
+            width: 10%
+        }
+    }
+}
+
+@media (min-width: 1920px) {
+    .track {
+        .track-name {
+            width: 60%;
+        }
+
+        .artists-container {
+            width: 25%;
+            display: inherit;
+        }
+
+        .track-duration {
+            width: 5%;
+
+            display: inherit;
+        }
+
+        .button {
+            width: 10%
+        }
+    }
+}
