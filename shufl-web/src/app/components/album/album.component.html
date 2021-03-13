@@ -5,7 +5,7 @@
         </div>
         <h2>{{ albumData.name }}</h2>
         <div class="artists-container">
-            <a *ngFor="let artist of albumData.artists" class="artist-link" href="/artist/{{ artist.id }}" [class.disabled]="{ disabled: artist.name === 'Various Artists' }">{{ artist.name }}</a>
+            <a *ngFor="let artist of albumData.artists" class="artist-link" href="/artist/{{ artist.id }}">{{ artist.name }}</a>
         </div>
         <p>{{ albumData.releaseDate | date: 'MMMM yyyy' }}</p>
         <a class="button" href="{{ albumData.url }}" target="new"><img src="assets/img/spotify-logo.png"><p>Open</p></a>
