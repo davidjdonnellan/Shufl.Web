@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
+import { ArtistConsts } from "src/app/consts/artist.consts";
 
 import { Album } from "src/app/models/album.model";
 import { Artist } from "src/app/models/artist.model";
@@ -12,16 +13,18 @@ import { DataService } from "src/app/services/data.service";
     styleUrls: ['./album.component.scss']
 })
 export class AlbumComponent implements OnInit {
+    VARIOUS_ARTISTS_CONST = ArtistConsts.variousArtistsConst;
+    genres: string[] = [];
     albumData: Album = new Album(
-        "",
-        "",
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
+        '',
+        '',
         [],
         []
     );
-    albumCoverArtUrl: string = "";
+    albumCoverArtUrl: string = '';
     dataLoaded: boolean = false;
 
     constructor(private route: ActivatedRoute,
@@ -39,6 +42,8 @@ export class AlbumComponent implements OnInit {
     }
 
     private async fetchRandomAlbumAsync(): Promise<void> {
+        this.dataLoaded = false;
+
         this.albumData = this.mapReceivedDataToAlbum(
             await this.dataService.getAsync<Album>('Album/RandomAlbum')
         );
@@ -47,6 +52,8 @@ export class AlbumComponent implements OnInit {
     }
 
     private async fetchAlbumAsync(albumId: string): Promise<void> {
+        this.dataLoaded = false;
+        
         this.albumData = this.mapReceivedDataToAlbum(
             await this.dataService.getAsync<Album>(`Album/Album?albumId=${albumId}`)
         );
@@ -54,7 +61,9 @@ export class AlbumComponent implements OnInit {
         this.dataLoaded = true;
     }
 
-    private mapReceivedDataToAlbum(receivedAlbumData: any): Album {
+    private mapReceivedDataToAlbum(receivedData: any): Album {
+        var receivedGenres = receivedData.genres;
+        var receivedAlbumData = receivedData.album;
         var tracks = this.mapReceivedTracks(receivedAlbumData.tracks.items);
         var artists = this.mapReceivedArtists(receivedAlbumData.artists);
 
@@ -67,6 +76,13 @@ export class AlbumComponent implements OnInit {
             tracks: tracks,
             artists: artists
         };
+
+        if (receivedGenres.length >= 3) {
+            this.genres = receivedData.genres.splice(0, 2);
+        }
+        else {
+            this.genres = receivedData.genres;
+        }
 
         this.albumCoverArtUrl = album.coverArtUrl;
 
@@ -104,5 +120,4 @@ export class AlbumComponent implements OnInit {
 
         return tracks;
     }
-
 }
