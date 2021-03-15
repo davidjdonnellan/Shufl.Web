@@ -16,13 +16,7 @@
             <a class="button" href="{{ albumData.url }}" target="new"><img src="assets/img/spotify-logo.png"><p>Open</p></a>
         </div>
         <div class="track-list-container">
-            <app-track-list-item 
-                *ngFor="let track of albumData.tracks" 
-                [trackNumber]="track.trackNumber"
-                [trackName]="track.name"
-                [trackArtists]="track.artists"
-                [trackDuration]="track.duration"
-                [trackUrl]="track.url"></app-track-list-item>
+            <app-track-list [tracks]="albumData.tracks"></app-track-list>
         </div>
     </div>
 </div>

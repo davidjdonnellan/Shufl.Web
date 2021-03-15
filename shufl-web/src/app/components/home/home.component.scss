@@ -1,9 +1,11 @@
-.card {
+.card-container {
     height: 320px;
 
-    background-color: transparent;
-
     top: calc(50% - 160px);
-
-    display: block;
+    
+    .card {
+        background-color: transparent;
+    
+        display: block;
+    }
 }
