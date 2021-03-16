@@ -9,6 +9,8 @@ const routes: Routes = [
     {path: '', component: HomeComponent, pathMatch: 'full'},
     {path: 'album', component: AlbumComponent},
     {path: 'album/:albumId', component: AlbumComponent},
+    {path: 'track', component: AlbumComponent},
+    {path: 'track/:trackId', component: AlbumComponent},
     {path: '404', component: NotFoundComponent},
     {path: '**', redirectTo: '404'}
 ];

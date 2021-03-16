@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { ArtistConsts } from "src/app/consts/artist.consts";
 
 import { Album } from "src/app/models/album.model";
@@ -28,34 +28,57 @@ export class AlbumComponent implements OnInit {
     dataLoaded: boolean = false;
 
     constructor(private route: ActivatedRoute,
+                private router: Router,
                 private dataService: DataService) { }
 
     async ngOnInit(): Promise<void> {
         var routeParams = this.route.snapshot.params;
+        var isRequestingAlbum = this.isRequestingAlbum(this.router.url);
 
         if (routeParams && Object.keys(routeParams).length === 0 && routeParams.constructor === Object) {
-            await this.fetchRandomAlbumAsync();
+            if (isRequestingAlbum) {
+                await this.fetchRandomAsync('Album/RandomAlbum');
+            }
+            else {
+                await this.fetchRandomAsync('Track/RandomTrack');
+            }
         }
         else {
-            await this.fetchAlbumAsync(routeParams.albumId);
+            if (isRequestingAlbum) {
+                await this.fetchAsync(`Album/Album?albumId=${routeParams.albumId}`);
+            }
+            else {
+                await this.fetchAsync(`Track/Track?trackId=${routeParams.trackId}`);
+            }
         }
     }
 
-    private async fetchRandomAlbumAsync(): Promise<void> {
+    private isRequestingAlbum(url: string): boolean {
+        var routes = url.match(/(\/[\w+-]+)/g);
+        if (routes !== null && routes.length !== 0) {
+            if (routes[0] === "/track") {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    private async fetchRandomAsync(url: string): Promise<void> {
         this.dataLoaded = false;
 
         this.albumData = this.mapReceivedDataToAlbum(
-            await this.dataService.getAsync<Album>('Album/RandomAlbum')
+            await this.dataService.getAsync<Album>(url)
         );
 
         this.dataLoaded = true;
     }
 
-    private async fetchAlbumAsync(albumId: string): Promise<void> {
+    private async fetchAsync(url: string): Promise<void> {
         this.dataLoaded = false;
         
         this.albumData = this.mapReceivedDataToAlbum(
-            await this.dataService.getAsync<Album>(`Album/Album?albumId=${albumId}`)
+            await this.dataService.getAsync<Album>(url)
         );
 
         this.dataLoaded = true;

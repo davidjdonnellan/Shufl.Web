@@ -12,7 +12,6 @@ import { IconButtonComponent } from './components/shared/icon-button/icon-button
 import { LoadingIconComponent } from './components/shared/loading-icon/loading-icon.component';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
 import { TrackListItemComponent } from './components/shared/track-list/track-list-item/track-list-item.component';
-import { TrackComponent } from './components/track/track.component';
 import { genreFormatter } from "./pipes/genreFormatter.pipe";
 import { TrackListComponent } from './components/shared/track-list/track-list.component';
 
@@ -28,7 +27,6 @@ import { TrackListComponent } from './components/shared/track-list/track-list.co
     NotFoundComponent,
     TrackListComponent,
     TrackListItemComponent,
-    TrackComponent,
     genreFormatter
   ],
   imports: [
