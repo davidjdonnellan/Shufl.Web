@@ -1,5 +1,5 @@
-@import 'src/assets/scss/variables/colours';
-@import 'src/assets/scss/variables/dimensions';
+@import "src/assets/scss/variables/colours";
+@import "src/assets/scss/variables/dimensions";
 
 html {
     height: 100%;
@@ -8,7 +8,11 @@ html {
 body {
     height: 100%;
 
-    background-image: radial-gradient(circle, $background-gradient-primary-colour 0%, $background-gradient-secondary-colour 75%);
+    background-image: radial-gradient(
+        circle,
+        $background-gradient-primary-colour 0%,
+        $background-gradient-secondary-colour 75%
+    );
     color: $primary-foreground-colour;
 
     margin: 0;
@@ -29,7 +33,11 @@ body {
 
     .button {
         color: $primary-foreground-colour;
-        background-image: linear-gradient(to left, $secondary-foreground-colour-hover 50%, $secondary-foreground-colour 50%);
+        background-image: linear-gradient(
+            to left,
+            $secondary-foreground-colour-hover 50%,
+            $secondary-foreground-colour 50%
+        );
         background-size: 200% 100%;
 
         margin-bottom: 25px;
@@ -43,7 +51,7 @@ body {
         user-select: none;
 
         cursor: pointer;
-    
+
         &:hover {
             background-position: -100% 0;
         }
