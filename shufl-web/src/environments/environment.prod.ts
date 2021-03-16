@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'localhost/Shufl.API'
+    apiUrl: 'https://shufl-api.azurewebsites.net'
 };
