@@ -37,6 +37,12 @@ jobs:
         
     - name: Run Tests and Generate Coverage Report
       run: npm run test
+        
+    - name: Publish Coverage
+      uses: codacy/codacy-coverage-reporter-action@0.2.0
+      with:
+        project-token: ${{ secrets.CODACY_TOKEN }}
+        coverage-reports: shufl-web/coverage/clover.xml
       
     - name: Deploy (Firebase)
       uses: FirebaseExtended/action-hosting-deploy@v0
@@ -48,12 +54,6 @@ jobs:
         channelId: live
       env:
         FIREBASE_CLI_PREVIEWS: hostingchannels
-        
-    - name: Publish Coverage
-      uses: codacy/codacy-coverage-reporter-action@0.2.0
-      with:
-        project-token: ${{ secrets.CODACY_TOKEN }}
-        coverage-reports: shufl-web/coverage/clover.xml
         
     - name: Archive Test Screenshots
       uses: actions/upload-artifact@v2
