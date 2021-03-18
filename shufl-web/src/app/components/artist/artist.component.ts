@@ -2,14 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from "@angular/platform-browser";
 import { ActivatedRoute } from '@angular/router';
 
-import { Album } from 'src/app/models/album.model';
-import { Artist } from 'src/app/models/artist.model';
+import { Album } from 'src/app/models/download-models/album.model';
+import { Artist } from 'src/app/models/download-models/artist.model';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'app-artist',
     templateUrl: './artist.component.html',
-    styleUrls: ['./artist.component.scss']
+    styleUrls: [
+        './artist.component.scss',
+        '../../../assets/scss/wide-container.scss'
+    ]
 })
 export class ArtistComponent implements OnInit {
     genres: string[] = [];
@@ -41,7 +44,7 @@ export class ArtistComponent implements OnInit {
     private async fetchAsync(url: string): Promise<void> {
         this.dataLoaded = false;
         this.titleService.setTitle('Shufl');
-        
+
         this.artistData = this.mapReceivedDataToArtist(
             await this.dataService.getAsync<Artist>(url)
         );
@@ -73,7 +76,7 @@ export class ArtistComponent implements OnInit {
             this.genres = receivedGenres;
         }
 
-        this.artistImageUrl = 
+        this.artistImageUrl =
             receivedArtistData.images.length > 0 ? receivedArtistData.images[0].url : 'assets/img/blank-user.png';
 
         return artist as Artist;
@@ -83,7 +86,7 @@ export class ArtistComponent implements OnInit {
         var albums = new Array<Album>();
 
         receivedAlbums.forEach((album: any) => {
-            albums.push(new Album (
+            albums.push(new Album(
                 album.id,
                 album.name,
                 album.externalUrls.spotify,
@@ -101,7 +104,7 @@ export class ArtistComponent implements OnInit {
         var artists = new Array<Artist>();
 
         receivedArtists.forEach((artist: any) => {
-            artists.push(new Artist (
+            artists.push(new Artist(
                 artist.id,
                 artist.name,
                 artist.followers,

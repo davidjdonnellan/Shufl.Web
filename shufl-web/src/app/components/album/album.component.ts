@@ -3,15 +3,18 @@ import { Title } from "@angular/platform-browser";
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArtistConsts } from 'src/app/consts/artist.consts';
 
-import { Album } from 'src/app/models/album.model';
-import { Artist } from 'src/app/models/artist.model';
-import { Track } from 'src/app/models/track.model';
+import { Album } from 'src/app/models/download-models/album.model';
+import { Artist } from 'src/app/models/download-models/artist.model';
+import { Track } from 'src/app/models/download-models/track.model';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
     selector: 'app-album',
     templateUrl: './album.component.html',
-    styleUrls: ['./album.component.scss']
+    styleUrls: [
+        './album.component.scss',
+        '../../../assets/scss/wide-container.scss'
+    ]
 })
 export class AlbumComponent implements OnInit {
     VARIOUS_ARTISTS_CONST = ArtistConsts.variousArtistsConst;
@@ -62,14 +65,14 @@ export class AlbumComponent implements OnInit {
                 return false;
             }
         }
-        
+
         return true;
     }
 
     private async fetchAsync(url: string): Promise<void> {
         this.dataLoaded = false;
         this.titleService.setTitle('Shufl');
-        
+
         this.albumData = this.mapReceivedDataToAlbum(
             await this.dataService.getAsync<Album>(url)
         );
@@ -110,7 +113,7 @@ export class AlbumComponent implements OnInit {
         var artists = new Array<Artist>();
 
         receivedArtists.forEach((artist: any) => {
-            artists.push(new Artist (
+            artists.push(new Artist(
                 artist.id,
                 artist.name,
                 artist.followers,
