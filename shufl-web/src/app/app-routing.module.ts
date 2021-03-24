@@ -8,6 +8,7 @@ import { GroupItemDetailsComponent } from "./components/group/group-item-details
 import { GroupsListComponent } from "./components/groups-list/groups-list.component";
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
+import { RegisterComponent } from "./components/shared/user/register/register.component";
 
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -20,6 +21,7 @@ const routes: Routes = [
     { path: 'groups', component: GroupsListComponent},
     { path: 'track', component: AlbumComponent },
     { path: 'track/:trackId', component: AlbumComponent },
+    { path: 'register', component: RegisterComponent },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '404' }
 ];

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
@@ -10,7 +11,7 @@ import { AlbumIconComponent } from './components/shared/album-icon/album-icon.co
 import { AlbumInfoComponent } from './components/shared/album-info/album-info.component';
 import { AppComponent } from './app.component';
 import { ArtistComponent } from './components/artist/artist.component';
-import { ButtonComponent } from './components/shared/button/button.component';
+import { ButtonComponent } from './components/shared/buttons/button/button.component';
 import { GroupComponent } from './components/group/group.component';
 import { GroupItemComponent } from './components/group/group-item-list/group-item/group-item.component';
 import { GroupItemDetailsComponent } from './components/group/group-item-details/group-item-details.component';
@@ -18,13 +19,18 @@ import { GroupItemListComponent } from './components/group/group-item-list/group
 import { GroupItemRatingComponent } from './components/shared/group-item-rating/group-item-rating.component';
 import { GroupItemUserRatingComponent } from './components/group/group-item-details/group-item-user-rating-list/group-item-user-rating/group-item-user-rating.component';
 import { GroupItemUserRatingListComponent } from './components/group/group-item-details/group-item-user-rating-list/group-item-user-rating-list.component';
+import { GroupsListComponent } from './components/groups-list/groups-list.component';
+import { GroupsListItemComponent } from './components/groups-list/groups-list-item/groups-list-item.component';
 import { HomeComponent } from './components/home/home.component';
-import { IconButtonComponent } from './components/shared/icon-button/icon-button.component';
+import { IconButtonComponent } from './components/shared/buttons/icon-button/icon-button.component';
 import { InlineArtistsTickerComponent } from './components/shared/inline-artists-ticker/inline-artists-ticker.component';
+import { LoadingButtonComponent } from './components/shared/buttons/loading-button/loading-button.component';
 import { LoadingIconComponent } from './components/shared/loading-icon/loading-icon.component';
 import { NavBarComponent } from './components/shared/nav-bar/nav-bar.component';
 import { NavBarItemComponent } from './components/shared/nav-bar/nav-bar-item/nav-bar-item.component';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
+import { RegisterComponent } from './components/shared/user/register/register.component';
+import { StatusCheckerComponent } from './components/shared/status-checker/status-checker.component';
 import { TrackListComponent } from './components/shared/track-list/track-list.component';
 import { TrackListItemComponent } from './components/shared/track-list/track-list-item/track-list-item.component';
 
@@ -33,8 +39,6 @@ import { genreFormatter } from './pipes/genreFormatter.pipe';
 import { LoadingService } from "./services/loading.service";
 
 import { environment } from '../environments/environment';
-import { GroupsListComponent } from './components/groups-list/groups-list.component';
-import { GroupsListItemComponent } from './components/groups-list/groups-list-item/groups-list-item.component';
 
 @NgModule({
     declarations: [
@@ -51,26 +55,29 @@ import { GroupsListItemComponent } from './components/groups-list/groups-list-it
         GroupItemRatingComponent,
         GroupItemUserRatingComponent,
         GroupItemUserRatingListComponent,
+        GroupsListComponent,
+        GroupsListItemComponent,
         HomeComponent,
         IconButtonComponent,
         InlineArtistsTickerComponent,
+        LoadingButtonComponent,
         LoadingIconComponent,
         NavBarComponent,
         NavBarItemComponent,
         NotFoundComponent,
+        RegisterComponent,
+        StatusCheckerComponent,
         TrackListComponent,
         TrackListItemComponent,
 
-        genreFormatter,
-
-        GroupsListComponent,
-
-        GroupsListItemComponent
+        genreFormatter
     ],
     imports: [
         AppRoutingModule,
         BrowserModule,
+        FormsModule,
         HttpClientModule,
+        ReactiveFormsModule,
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [

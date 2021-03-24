@@ -18,6 +18,16 @@ body {
         margin: 0;
     }
 
+    a {
+        color: $tertiary-foreground-colour;
+
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
     .app-icon {
         background-image: url("assets/img/logos/app/logo.png");
         background-size: cover;
@@ -25,6 +35,28 @@ body {
         &.white {
             background-image: url("assets/img/logos/app/logo-white.png");
         }
+    }
+
+    .loading-icon,
+    .check-icon,
+    .x-icon {
+        background-size: contain;
+    }
+
+    .loading-icon {
+        background-image: url("assets/svg/loading.svg");
+
+        &.primary-foreground {
+            background-image: url("assets/svg/loading-primary-foreground.svg");
+        }
+    }
+
+    .check-icon {
+        background-image: url("assets/svg/check.svg");
+    }
+
+    .x-icon {
+        background-image: url("assets/svg/x.svg");
     }
 
     .button {
@@ -64,16 +96,6 @@ body {
             background-color: $primary-background-colour;
 
             border-radius: $primary-border-radius;
-
-            a {
-                color: $tertiary-foreground-colour;
-
-                text-decoration: none;
-
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
 
             .album-info-container,
             .artist-info-container {
@@ -126,9 +148,13 @@ body {
                     }
 
                     .genre-label {
-                        margin-top: 15px;
-                        margin-bottom: 0;
+                        margin: 10px 0 5px 0;
                     }
+                }
+
+                .followers,
+                .release-date {
+                    margin: 5px 0 10px 0;
                 }
 
                 .button {
