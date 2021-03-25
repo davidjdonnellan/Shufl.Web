@@ -26,6 +26,7 @@ import { IconButtonComponent } from './components/shared/buttons/icon-button/ico
 import { InlineArtistsTickerComponent } from './components/shared/inline-artists-ticker/inline-artists-ticker.component';
 import { LoadingButtonComponent } from './components/shared/buttons/loading-button/loading-button.component';
 import { LoadingIconComponent } from './components/shared/loading-icon/loading-icon.component';
+import { LoginComponent } from './components/shared/user/login/login.component';
 import { NavBarComponent } from './components/shared/nav-bar/nav-bar.component';
 import { NavBarItemComponent } from './components/shared/nav-bar/nav-bar-item/nav-bar-item.component';
 import { NotFoundComponent } from './components/shared/not-found/not-found.component';
@@ -33,15 +34,20 @@ import { RegisterComponent } from './components/shared/user/register/register.co
 import { StatusCheckerComponent } from './components/shared/status-checker/status-checker.component';
 import { TrackListComponent } from './components/shared/track-list/track-list.component';
 import { TrackListItemComponent } from './components/shared/track-list/track-list-item/track-list-item.component';
+import { VerifyComponent } from './components/shared/user/verify/verify.component';
 
 import { genreFormatter } from './pipes/genreFormatter.pipe';
 
 import { LoadingService } from "./services/loading.service";
 
 import { environment } from '../environments/environment';
+import { AuthGuardService } from "./services/auth/auth-guard.service";
+import { AuthService } from "./services/auth/auth.service";
+import { AccountComponent } from './components/user/account/account.component';
 
 @NgModule({
     declarations: [
+        AccountComponent,
         AlbumComponent,
         AlbumIconComponent,
         AlbumInfoComponent,
@@ -62,6 +68,7 @@ import { environment } from '../environments/environment';
         InlineArtistsTickerComponent,
         LoadingButtonComponent,
         LoadingIconComponent,
+        LoginComponent,
         NavBarComponent,
         NavBarItemComponent,
         NotFoundComponent,
@@ -69,6 +76,7 @@ import { environment } from '../environments/environment';
         StatusCheckerComponent,
         TrackListComponent,
         TrackListItemComponent,
+        VerifyComponent,
 
         genreFormatter
     ],
@@ -81,6 +89,8 @@ import { environment } from '../environments/environment';
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [
+        AuthGuardService,
+        AuthService,
         LoadingService
     ],
     bootstrap: [AppComponent]
