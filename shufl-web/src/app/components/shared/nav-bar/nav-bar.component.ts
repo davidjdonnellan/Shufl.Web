@@ -19,7 +19,7 @@ export class NavBarComponent implements OnInit {
     groupsItem: NavBarItem = new NavBarItem('groups', 'Groups', 'groups');
     groupsActive: boolean = false;
 
-    userItem: NavBarItem = new NavBarItem('user', 'Account', '');
+    userItem: NavBarItem = new NavBarItem('user', 'Account', 'account');
     userActive: boolean = false;
 
     routeChangeSubscriber: Subscriber<Event> = Subscriber.create(
