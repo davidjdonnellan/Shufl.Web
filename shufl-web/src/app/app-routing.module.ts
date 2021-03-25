@@ -18,6 +18,7 @@ import { AuthGuardService } from "./services/auth/auth-guard.service";
 const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: 'account', component: AccountComponent, canActivate: [AuthGuardService] },
+    { path: 'account/verify/:token', component: VerifyComponent },
     { path: 'album', component: AlbumComponent },
     { path: 'album/:albumId', component: AlbumComponent },
     { path: 'artist', component: ArtistComponent },
@@ -29,7 +30,6 @@ const routes: Routes = [
     { path: 'register', component: RegisterComponent },
     { path: 'track', component: AlbumComponent },
     { path: 'track/:trackId', component: AlbumComponent },
-    { path: 'verify/:token', component: VerifyComponent },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '404' }
 ];
