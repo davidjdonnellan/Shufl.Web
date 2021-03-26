@@ -22,31 +22,46 @@
 
         margin: auto;
         padding: 10px 0;
-    }
 
-    .form-error {
-        color: $primary-negative-colour;
+        .form-error {
+            color: $primary-negative-colour;
 
-        padding: 15px 15px 0 15px;
+            padding: 15px 15px 0 15px;
 
-        display: none;
+            display: none;
 
-        font-size: 16pt;
-        text-align: center;
+            font-size: 16pt;
+            text-align: center;
 
-        &.visible {
-            display: block;
+            &.visible {
+                display: block;
+            }
         }
-    }
 
-    .form-link {
-        width: 100%;
+        .form-link {
+            width: fit-content;
 
-        margin-top: 15px;
+            margin: 15px auto 0 auto;
 
-        display: block;
+            display: block;
 
-        text-align: center;
+            text-align: center;
+        }
+
+        .message-container {
+            .icon {
+                width: 45px;
+                height: 45px;
+
+                margin: auto;
+            }
+
+            h2 {
+                color: $primary-foreground-colour;
+
+                text-align: center;
+            }
+        }
     }
 }
 
