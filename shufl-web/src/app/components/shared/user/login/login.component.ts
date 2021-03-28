@@ -87,30 +87,30 @@ export class LoginComponent implements OnInit {
     public async loginAsync(formData: any): Promise<void> {
         if(!this.isLoading) {
             this.formErrorMessageVisible = false;
-        this.isLoading = true;
+            this.isLoading = true;
 
-        var hashedPassword = shajs('sha256').update(formData['password']).digest('hex');
+            var hashedPassword = shajs('sha256').update(formData['password']).digest('hex');
 
-        var authRequestModel = new AuthRequest(
-            formData['email'],
-            hashedPassword
-        );
+            var authRequestModel = new AuthRequest(
+                formData['email'],
+                hashedPassword
+            );
 
-        try {
-            await this.authService.loginAsync(authRequestModel);
-        }
-        catch (err) {
-            if (err instanceof HttpErrorResponse) {
-                if (err.status === 400) {
-                    this.formErrorMessage = "Invalid login credentials";
-                }
-                else {
-                    this.formErrorMessage = "An unexpected error occured, please try again";
-                }
-                this.formErrorMessageVisible = true;
-                this.isLoading = false;
+            try {
+                await this.authService.loginAsync(authRequestModel);
             }
-        }
+            catch (err) {
+                if (err instanceof HttpErrorResponse) {
+                    if (err.status === 400) {
+                        this.formErrorMessage = "Invalid login credentials";
+                    }
+                    else {
+                        this.formErrorMessage = "An unexpected error occured, please try again";
+                    }
+                    this.formErrorMessageVisible = true;
+                    this.isLoading = false;
+                }
+            }
         }
     }
 

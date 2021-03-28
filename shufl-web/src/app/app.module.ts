@@ -17,8 +17,9 @@ import { ArtistComponent } from './components/artist/artist.component';
 import { ButtonComponent } from './components/shared/buttons/button/button.component';
 import { CardNavBarComponent } from './components/shared/navigation/card-nav-bar/card-nav-bar.component';
 import { GroupComponent } from './components/group/group.component';
-import { GroupAddAlbumComponent } from './components/shared/group/group-add-album/group-add-album.component';
-import { GroupCreateInviteComponent } from './components/shared/group/group-create-invite/group-create-invite.component';
+import { GroupCreateComponent } from './components/shared/group/dialogs/group-create/group-create.component';
+import { GroupAddAlbumComponent } from './components/shared/group/dialogs/group-add-album/group-add-album.component';
+import { GroupCreateInviteComponent } from './components/shared/group/dialogs/group-create-invite/group-create-invite.component';
 import { GroupInviteComponent } from './components/shared/group/group-invite/group-invite.component';
 import { GroupsListComponent } from './components/groups-list/groups-list.component';
 import { GroupsListItemComponent } from './components/groups-list/groups-list-item/groups-list-item.component';
@@ -91,7 +92,9 @@ import { UrlHelperService } from "./services/helpers/url-helper.service";
         UserIconComponent,
         VerifyComponent,
 
-        genreFormatter
+        genreFormatter,
+
+        GroupCreateComponent
     ],
     imports: [
         AppRoutingModule,

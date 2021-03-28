@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { Group } from "src/app/models/download-models/group.model";
 import { DataService } from "src/app/services/data.service";
 import { UrlHelperService } from "src/app/services/helpers/url-helper.service";
-import { GroupCreateInviteComponent } from "../shared/group/group-create-invite/group-create-invite.component";
+import { GroupCreateInviteComponent } from "../shared/group/dialogs/group-create-invite/group-create-invite.component";
 
 @Component({
     selector: 'app-group',
