@@ -5,7 +5,8 @@ import { AccountComponent } from "./components/user/account/account.component";
 import { AlbumComponent } from './components/album/album.component';
 import { ArtistComponent } from './components/artist/artist.component';
 import { GroupComponent } from "./components/group/group.component";
-import { GroupItemDetailsComponent } from "./components/group/group-item-details/group-item-details.component";
+import { GroupInviteComponent } from "./components/shared/group/group-invite/group-invite.component";
+import { GroupSuggestionDetailsComponent } from "./components/group/group-suggestion-details/group-suggestion-details.component";
 import { GroupsListComponent } from "./components/groups-list/groups-list.component";
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from "./components/shared/user/login/login.component";
@@ -29,7 +30,8 @@ const routes: Routes = [
     { path: 'artist/:artistId', component: ArtistComponent },
     { path: 'login', component: LoginComponent },
     { path: 'group/:groupId', component: GroupComponent, canActivate: [AuthGuardService]},
-    { path: 'group/:groupId/:groupItemId', component: GroupItemDetailsComponent, canActivate: [AuthGuardService]},
+    { path: 'group/:groupId/:groupItemId', component: GroupSuggestionDetailsComponent, canActivate: [AuthGuardService]},
+    { path: 'groups/join/:token', component: GroupInviteComponent, canActivate: [AuthGuardService]},
     { path: 'groups', component: GroupsListComponent, canActivate: [AuthGuardService]},
     { path: 'register', component: RegisterComponent },
     { path: 'track', component: AlbumComponent },

@@ -1,0 +1,20 @@
+.group-suggestion-user-rating-list-container {
+    display: flex;
+    flex-direction: column;
+
+    .ratings-left,
+    .ratings-right {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1920px) {
+    .group-suggestion-user-rating-list-container {
+        flex-direction: row;
+
+        .ratings-left,
+        .ratings-right {
+            width: 50%;
+        }
+    }
+}

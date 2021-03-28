@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { LoadingService } from "src/app/services/loading.service";
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-loading-icon',
@@ -7,18 +6,13 @@ import { LoadingService } from "src/app/services/loading.service";
     styleUrls: ['./loading-icon.component.scss']
 })
 export class LoadingIconComponent implements OnInit {
-    visible: boolean = false;
+    @Input() dimensions!: number;
 
-    constructor(private loadingService: LoadingService) { }
+    constructor() { }
 
     ngOnInit(): void {
-        this.setupLoadingServiceListener();
+        if (this.dimensions == null) {
+            this.dimensions = 200;
+        }
     }
-
-    private setupLoadingServiceListener(): void {
-        this.loadingService.stateEvent.subscribe((state) => {
-            this.visible = state;
-        });
-    }
-
 }

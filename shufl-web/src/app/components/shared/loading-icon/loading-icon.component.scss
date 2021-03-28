@@ -1,19 +1,6 @@
 .loading-icon-container {
-    width: 200px;
-    height: 200px;
-
     position: absolute;
-    left: calc(50% - 100px);
-    top: calc(50% - 100px);
     z-index: 0;
 
-    opacity: 0;
-
-    -webkit-transition: opacity 0.25s ease-in-out;
-    -moz-transition: opacity 0.25s ease-in-out;
-    transition: opacity 0.25s ease-in-out;
-
-    &.visible {
-        opacity: 1;
-    }
+    display: block;
 }

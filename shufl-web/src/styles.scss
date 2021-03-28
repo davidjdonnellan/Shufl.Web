@@ -1,5 +1,7 @@
 @import "src/assets/scss/variables/colours";
 @import "src/assets/scss/variables/dimensions";
+@import "~@angular/material/theming";
+@include mat-core();
 
 html {
     height: 100%;
@@ -37,9 +39,7 @@ body {
         }
     }
 
-    .loading-icon,
-    .check-icon,
-    .x-icon {
+    .icon {
         background-size: contain;
     }
 
@@ -57,6 +57,14 @@ body {
 
     .x-icon {
         background-image: url("assets/svg/x.svg");
+    }
+
+    .clipboard-icon {
+        background-image: url("assets/svg/clipboard.svg");
+    }
+
+    .invite-icon {
+        background-image: url("assets/svg/invite.svg");
     }
 
     .button {
@@ -85,159 +93,34 @@ body {
         }
     }
 
-    .card-container {
-        position: absolute;
-        left: 5%;
-        right: 5%;
+    .divider {
+        background-color: $tertiary-foreground-colour;
+    }
 
-        z-index: 1;
+    .cdk-overlay-dark-backdrop {
+        background: rgba(0, 0, 0, 0.85) !important;
+    }
 
-        .card {
-            background-color: $primary-background-colour;
+    mat-dialog-container {
+        background-color: $primary-background-colour !important;
+    }
+}
 
-            border-radius: $primary-border-radius;
+@media (min-width: 1920px) {
+    body {
+        .cdk-overlay-container {
+            left: 375px;
+            right: 0;
 
-            .album-info-container,
-            .artist-info-container {
-                .album-cover,
-                .artist-image {
-                    display: flex;
+            .cdk-global-overlay-wrapper {
+                width: calc(100% - #{$nav-bar-width-desktop}) !important;
 
-                    img {
-                        width: 250px;
-                        height: 250px;
-
-                        margin: auto;
-                    }
-                }
-
-                h2,
-                h3,
-                p {
-                    text-align: center;
-                }
-
-                .artists-container,
-                .genres-container {
-                    display: flex;
-
-                    justify-content: center;
-
-                    .artist-link,
-                    .genre-label {
-                        color: $tertiary-foreground-colour;
-
-                        text-decoration: none;
-
-                        &:not(:last-child)::after {
-                            content: ", ";
-                            margin-right: 3px;
-                        }
-                    }
-
-                    .artist-link {
-                        &.disabled {
-                            cursor: default;
-
-                            pointer-events: none;
-                        }
-
-                        &:not(.disabled):hover {
-                            text-decoration: underline;
-                        }
-                    }
-
-                    .genre-label {
-                        margin: 10px 0 5px 0;
-                    }
-                }
-
-                .followers,
-                .release-date {
-                    margin: 5px 0 10px 0;
-                }
-
-                .button {
-                    width: 60%;
-                    height: 50px;
-
-                    padding: 10px;
-                    margin: auto;
-                    margin-bottom: 25px;
-
-                    display: flex;
-
-                    text-decoration: none;
-
-                    img {
-                        width: 40px;
-                        height: 40px;
-
-                        margin-top: 5px;
-                        margin-right: -40px;
-                    }
-
-                    p {
-                        margin: auto;
-
-                        font-size: 2em;
-                    }
+                .cdk-overlay-pane {
+                    position: absolute !important;
+                    top: 150px;
+                    margin: 0 auto;
                 }
             }
-        }
-    }
-}
-
-@media (min-width: 475px) and (max-width: 765px) {
-    body {
-        .card-container {
-            left: 10%;
-            right: 10%;
-        }
-    }
-}
-
-@media (min-width: 765px) and (max-width: 1024px) {
-    body {
-        .card-container {
-            left: 20%;
-            right: 20%;
-        }
-    }
-}
-
-@media (min-width: 1024px) and (max-width: 1365px) {
-    body {
-        .card-container {
-            left: 30%;
-            right: 30%;
-        }
-    }
-}
-
-@media (min-width: 1365px) and (max-width: 1920px) {
-    body {
-        .card-container {
-            left: 35%;
-            right: 35%;
-        }
-    }
-}
-
-@media (min-width: 1920px) and (max-width: 2560px) {
-    body {
-        .card-container {
-            left: 38%;
-            right: 38%;
-        }
-    }
-}
-
-@media (min-width: 2560px) {
-    body {
-        .card-container {
-            left: 42%;
-            right: 42%;
         }
     }
 }
