@@ -104,12 +104,14 @@ export class LoginComponent implements OnInit {
                     if (err.status === 400) {
                         this.formErrorMessage = "Invalid login credentials";
                     }
-                    else {
-                        this.formErrorMessage = "An unexpected error occured, please try again";
-                    }
-                    this.formErrorMessageVisible = true;
-                    this.isLoading = false;
                 }
+                else {
+                    this.formErrorMessage = "An unexpected error occured, please try again";
+                }
+                this.formErrorMessageVisible = true;
+            }
+            finally {
+                this.isLoading = false;
             }
         }
     }

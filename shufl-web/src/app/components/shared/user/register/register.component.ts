@@ -244,6 +244,9 @@ export class RegisterComponent implements OnInit {
                         }
                     }
                 }
+                else {
+                    this.formErrorMessageVisible = true;
+                }
             }
             finally {
                 this.isLoading = false;
