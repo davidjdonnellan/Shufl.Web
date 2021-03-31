@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -52,6 +52,7 @@ import { environment } from '../environments/environment';
 import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { AuthService } from "./services/auth/auth.service";
 import { UrlHelperService } from "./services/helpers/url-helper.service";
+import { GroupSuggestionRateComponent } from './components/shared/group/dialogs/group-suggestion-rate/group-suggestion-rate.component';
 
 @NgModule({
     declarations: [
@@ -94,7 +95,9 @@ import { UrlHelperService } from "./services/helpers/url-helper.service";
 
         genreFormatter,
 
-        GroupCreateComponent
+        GroupCreateComponent,
+
+        GroupSuggestionRateComponent
     ],
     imports: [
         AppRoutingModule,
@@ -109,7 +112,11 @@ import { UrlHelperService } from "./services/helpers/url-helper.service";
     providers: [
         AuthGuardService,
         AuthService,
-        UrlHelperService
+        UrlHelperService,
+        {
+            provide: MatDialogRef,
+            useValue: {}
+        }
     ],
     bootstrap: [AppComponent],
     entryComponents: [
