@@ -2,13 +2,13 @@ export class Rating {
     id!: string;
     overallRating!: number;
     overallRatingsCount: number | undefined;
-    lyricsRating!: number;
+    lyricsRating!: number | undefined;
     lyricsRatingsCount: number | undefined
-    vocalsRating!: number;
+    vocalsRating!: number | undefined;
     vocalsRatingsCount: number | undefined;
-    instrumentalsRating!: number;
+    instrumentalsRating!: number | undefined;
     instrumentalsRatingsCount: number | undefined;
-    compositionRating!: number;
+    compositionRating!: number | undefined;
     compositionRatingsCount: number | undefined;
     comment!: string;
     username!: string;
@@ -17,10 +17,10 @@ export class Rating {
     constructor(
         id: string,
         overallRating: number,
-        lyricsRating: number,
-        vocalsRating: number,
-        instrumentalsRating: number,
-        compositionRating: number,
+        lyricsRating: number | undefined,
+        vocalsRating: number | undefined,
+        instrumentalsRating: number | undefined,
+        compositionRating: number | undefined,
         comment: string,
         username: string,
         displayName: string
