@@ -29,21 +29,21 @@ export class GroupSuggestionComponent implements OnInit {
             var overallTotal = overallRatings.reduce((sum, current) => sum + current);
             var overAllRating = this.averageAndRoundToDecimal(overallTotal, overallRatings.length);
 
-            var lyricsRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.lyricsRating != null).map((gsr) => gsr.lyricsRating as number);
-            var lyricsTotal = lyricsRatings.reduce((sum, current) => sum + current);
-            var lyricsRating = this.averageAndRoundToDecimal(lyricsTotal, lyricsRatings.length);
+            var lyricsRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.lyricsRating != null)?.map((gsr) => gsr.lyricsRating as number);
+            var lyricsTotal = lyricsRatings.length > 0 ? lyricsRatings.reduce((sum, current) => sum + current) : null;
+            var lyricsRating = lyricsTotal != null ? this.averageAndRoundToDecimal(lyricsTotal, lyricsRatings.length) : null;
 
-            var vocalsRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.vocalsRating != null).map((gsr) => gsr.vocalsRating as number);
-            var vocalsTotal = vocalsRatings.reduce((sum, current) => sum + current);
-            var vocalsRating = this.averageAndRoundToDecimal(vocalsTotal, vocalsRatings.length);
+            var vocalsRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.vocalsRating != null)?.map((gsr) => gsr.vocalsRating as number);
+            var vocalsTotal = vocalsRatings.length > 0 ? vocalsRatings.reduce((sum, current) => sum + current) : null;
+            var vocalsRating = vocalsTotal != null ? this.averageAndRoundToDecimal(vocalsTotal, vocalsRatings.length) : null;
 
-            var instrumentalsRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.instrumentalsRating != null).map((gsr) => gsr.instrumentalsRating as number);
-            var instrumentalsTotal = instrumentalsRatings.reduce((sum, current) => sum + current);
-            var instrumentalsRating = this.averageAndRoundToDecimal(instrumentalsTotal, instrumentalsRatings.length);
+            var instrumentalsRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.instrumentalsRating != null)?.map((gsr) => gsr.instrumentalsRating as number);
+            var instrumentalsTotal = instrumentalsRatings.length > 0 ? instrumentalsRatings.reduce((sum, current) => sum + current) : null;
+            var instrumentalsRating = instrumentalsTotal != null ? this.averageAndRoundToDecimal(instrumentalsTotal, instrumentalsRatings?.length) : null;
 
-            var compositionRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.compositionRating != null).map((gsr) => gsr.compositionRating as number);
-            var compositionTotal = compositionRatings.reduce((sum, current) => sum + current);
-            var compositionRating = this.averageAndRoundToDecimal(compositionTotal, compositionRatings.length);
+            var compositionRatings = this.groupSuggestion.groupSuggestionRatings.filter((gsr) => gsr.compositionRating != null)?.map((gsr) => gsr.compositionRating as number);
+            var compositionTotal = compositionRatings.length > 0 ? compositionRatings.reduce((sum, current) => sum + current) : null;
+            var compositionRating = compositionTotal != null ? this.averageAndRoundToDecimal(compositionTotal, compositionRatings?.length) : null;
 
             let rating = new Rating(
                 "",
