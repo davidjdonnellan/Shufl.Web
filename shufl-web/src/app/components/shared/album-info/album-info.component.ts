@@ -12,8 +12,8 @@ import { Album } from "src/app/models/download-models/album.model";
 })
 export class AlbumInfoComponent implements OnInit {
     @Input() album!: any;
-    @Input() genres!: string[];
     @Input() linkDisabled!: boolean;
+    @Input() genres!: string[];
 
     albumCoverUrl!: string;
     VARIOUS_ARTISTS_CONST = ArtistConsts.variousArtistsConst;
@@ -21,6 +21,14 @@ export class AlbumInfoComponent implements OnInit {
     constructor() { }
 
     ngOnInit(): void {
+        var artistGenres = this.album.artists[0].artistGenres.map((g: any) => g.name);
+
+        if (artistGenres.length > 3) {
+            this.genres = artistGenres.splice(0, 3);
+        }
+        else {
+            this.genres = artistGenres;
+        }
     }
 
 }
