@@ -18,7 +18,6 @@ import { ButtonComponent } from './components/shared/buttons/button/button.compo
 import { CardNavBarComponent } from './components/shared/navigation/card-nav-bar/card-nav-bar.component';
 import { GroupComponent } from './components/group/group.component';
 import { GroupCreateComponent } from './components/shared/group/dialogs/group-create/group-create.component';
-import { GroupAddAlbumComponent } from './components/shared/group/dialogs/group-add-album/group-add-album.component';
 import { GroupCreateInviteComponent } from './components/shared/group/dialogs/group-create-invite/group-create-invite.component';
 import { GroupInviteComponent } from './components/shared/group/group-invite/group-invite.component';
 import { GroupsListComponent } from './components/groups-list/groups-list.component';
@@ -53,6 +52,11 @@ import { AuthGuardService } from "./services/auth/auth-guard.service";
 import { AuthService } from "./services/auth/auth.service";
 import { UrlHelperService } from "./services/helpers/url-helper.service";
 import { GroupSuggestionRateComponent } from './components/shared/group/dialogs/group-suggestion-rate/group-suggestion-rate.component';
+import { SearchComponent } from './components/search/search.component';
+import { ArtistSearchResultsContainerComponent } from './components/search/artist-search-results-container/artist-search-results-container.component';
+import { AlbumSearchResultsContainerComponent } from './components/search/album-search-results-container/album-search-results-container.component';
+import { TrackSearchResultsContainerComponent } from './components/search/track-search-results-container/track-search-results-container.component';
+import { AddToGroupComponent } from './components/shared/group/dialogs/add-to-group/add-to-group.component';
 
 @NgModule({
     declarations: [
@@ -65,7 +69,6 @@ import { GroupSuggestionRateComponent } from './components/shared/group/dialogs/
         ButtonComponent,
         CardNavBarComponent,
         GroupComponent,
-        GroupAddAlbumComponent,
         GroupCreateInviteComponent,
         GroupInviteComponent,
         GroupSuggestionComponent,
@@ -97,7 +100,17 @@ import { GroupSuggestionRateComponent } from './components/shared/group/dialogs/
 
         GroupCreateComponent,
 
-        GroupSuggestionRateComponent
+        GroupSuggestionRateComponent,
+
+        SearchComponent,
+
+        ArtistSearchResultsContainerComponent,
+
+        AlbumSearchResultsContainerComponent,
+
+        TrackSearchResultsContainerComponent,
+
+        AddToGroupComponent
     ],
     imports: [
         AppRoutingModule,
@@ -120,8 +133,9 @@ import { GroupSuggestionRateComponent } from './components/shared/group/dialogs/
     ],
     bootstrap: [AppComponent],
     entryComponents: [
-        GroupAddAlbumComponent,
-        GroupCreateInviteComponent
+        AddToGroupComponent,
+        GroupCreateInviteComponent,
+        GroupSuggestionRateComponent
     ]
 })
 export class AppModule { }
