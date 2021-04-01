@@ -55,7 +55,7 @@ export class GroupSuggestionRatingComponent implements OnInit {
         }
         
         if (rating.vocalsRatingsCount != null) {
-            this.vocalsRating = this.configureRatingCountString(rating.lyricsRating, rating.vocalsRatingsCount);
+            this.vocalsRating = this.configureRatingCountString(rating.vocalsRating, rating.vocalsRatingsCount);
             this.vocalsRatingsCount = rating.vocalsRatingsCount.toString();
         }
         else {
