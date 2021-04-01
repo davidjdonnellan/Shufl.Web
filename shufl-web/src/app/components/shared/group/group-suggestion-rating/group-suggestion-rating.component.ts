@@ -79,7 +79,7 @@ export class GroupSuggestionRatingComponent implements OnInit {
         }
     }
 
-    private configureRatingCountString(rating: number | undefined, ratingCount: number): string {
+    private configureRatingCountString(rating: number | null, ratingCount: number): string {
         if (ratingCount === 0) {
             return ' - ';
         }
@@ -88,7 +88,7 @@ export class GroupSuggestionRatingComponent implements OnInit {
         }
     }
 
-    private configureRatingString(rating: number | undefined): string {
+    private configureRatingString(rating: number | null): string {
         if (rating == null) {
             return ' - ';
         }
