@@ -3,7 +3,12 @@ context('Home Tests', () => {
         cy.visit('');
     });
   
-    it('should visit home page', () => {
-        cy.contains('Random Track')
+    it('home page track', () => {
+        cy.get('div').contains('Random Album')
+        cy.get('div').contains('Random Artist')
+        cy.get('div').contains('Random Track')
     });
+
+    
+
 });
