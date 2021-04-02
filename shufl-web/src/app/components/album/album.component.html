@@ -1,7 +1,7 @@
 <div class="card-container" [ngClass]="{'modal': isModal}">
     <div class="card" [ngClass]="{'loaded': !isLoading}">
-        <app-card-nav-bar [addVisible]="isLoggedIn" (addClicked)="addClicked()"></app-card-nav-bar>
-        <div class="album-info-container">
+        <app-card-nav-bar [addVisible]="isLoggedIn" (addClicked)="addClicked()" *ngIf="!isModal"></app-card-nav-bar>
+        <div class="album-info-container" *ngIf="!isLoading">
             <div class="album-cover">
                 <img src="{{ albumCoverArtUrl }}" alt="{{ albumData.name }}">
             </div>
@@ -25,7 +25,7 @@
             <app-loading-button [buttonText]="'New Suggestion'" [isLoading]="isLoading" (click)="fetchAsync('Album/RandomAlbum')"></app-loading-button>
             <p class="form-error" *ngIf="errorVisible && !isLoading && !addingAlbumToGroup && !addedAlbumToGroupSuccessfully">There was an error adding this album to the group</p>
         </div>
-        <div class="track-list-container">
+        <div class="track-list-container" *ngIf="!isLoading">
             <app-track-list [tracks]="albumData.tracks" *ngIf="!isModal"></app-track-list>
         </div>
     </div>
