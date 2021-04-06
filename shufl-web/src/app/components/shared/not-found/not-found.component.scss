@@ -1,5 +1,8 @@
 .card-container {
+    position: absolute;
     top: calc(50% - 100px);
+    left: 5%;
+    right: 5%;
 
     .card {
         background-color: transparent;
@@ -9,5 +12,12 @@
 
             text-align: center;
         }
+    }
+}
+
+@media (min-width: 1920px) {
+    .card-container {
+        left: 35%;
+        right: 35%;
     }
 }
