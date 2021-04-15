@@ -46,10 +46,19 @@ jobs:
       run: |
         rm src/environments/environment.prod.ts
         echo $ENVIRONMENT_QA > src/environments/environment.prod.ts
+        ls src/environments/
+        
       shell: bash
       env:
         $ENVIRONMENT_QA: ${{ secrets.ENVIRONMENT_QA }}
-          
+        
+    - name: Archive 
+      uses: actions/upload-artifact@v2
+      with:
+        name: Env
+        path: src/environments/environment.prod.ts
+        retention-days: 5
+        
     - name: Setup Node ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
