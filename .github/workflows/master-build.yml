@@ -75,7 +75,6 @@ jobs:
         repoToken: '${{ secrets.GITHUB_TOKEN }}'
         firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_WEBENV_SHUFL_QA }}'
         projectId: webenv-shufl-qa
-        target: qa
         entryPoint: ./shufl-web
         channelId: live
       env:
