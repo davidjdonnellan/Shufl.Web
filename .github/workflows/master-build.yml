@@ -40,7 +40,7 @@ jobs:
       with:
         files: './shufl-web/package.json'
       env:
-        version: ${{ steps.extract_version.outputs.version }}-CI-${{ RUN_NUMBER }}
+        version: ${{ steps.extract_version.outputs.version }}-CI-${{ env.RUN_NUMBER }}
         
     - name: Configure Environment Variables
       run: |
