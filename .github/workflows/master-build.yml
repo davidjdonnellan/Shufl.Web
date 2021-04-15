@@ -46,7 +46,7 @@ jobs:
       run: |
         rm src/environments/environment.prod.ts
         ls src/environments/
-        echo $ENVIRONMENT_QA_SECRET > src/environments/environment.prod.ts
+        echo $ENVIRONMENT_QA_SECRET >> src/environments/environment.prod.ts
         ls src/environments/
       shell: bash
       env:
