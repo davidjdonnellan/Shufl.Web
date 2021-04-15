@@ -2,11 +2,15 @@
   "targets": {
     "webenv-shufl": {
       "hosting": {
-        "qa": [
-          "webenv-shufl-qa"
-        ],
         "prod": [
           "webenv-shufl"
+        ]
+      }
+    },
+    "webenv-shufl-qa": {
+      "hosting": {
+        "qa": [
+          "webenv-shufl-qa"
         ]
       }
     }
