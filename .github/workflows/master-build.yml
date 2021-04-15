@@ -41,7 +41,8 @@ jobs:
         
     - name: Configure Environment Variables
       run: |
-        rm Shufl.Web/shufl-web/src/environments/environment.prod.ts
+        ls
+        rm src/environments/environment.prod.ts
         echo $ENVIRONMENT_QA > ./shufl-web/src/environments/environment.prod.ts
       shell: bash
       env:
