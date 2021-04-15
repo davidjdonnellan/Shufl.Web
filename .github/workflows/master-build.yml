@@ -43,7 +43,7 @@ jobs:
       run: |
         ls
         rm src/environments/environment.prod.ts
-        echo $ENVIRONMENT_QA > ./shufl-web/src/environments/environment.prod.ts
+        echo $ENVIRONMENT_QA > src/environments/environment.prod.ts
       shell: bash
       env:
         $ENVIRONMENT_QA: ${{ secrets.ENVIRONMENT_QA }}
@@ -65,7 +65,7 @@ jobs:
       uses: codacy/codacy-coverage-reporter-action@0.2.0
       with:
         project-token: ${{ secrets.CODACY_TOKEN }}
-        coverage-reports: shufl-web/coverage/clover.xml
+        coverage-reports: coverage/clover.xml
       
     - name: Deploy (Firebase)
       uses: FirebaseExtended/action-hosting-deploy@v0
