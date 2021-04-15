@@ -50,7 +50,7 @@ jobs:
         ls src/environments/
       shell: bash
       env:
-        $ENVIRONMENT_QA_SECRET: ${{ secrets.ENVIRONMENT_QA }}
+        ENVIRONMENT_QA_SECRET: ${{ secrets.ENVIRONMENT_QA }}
         
     - name: Archive 
       uses: actions/upload-artifact@v2
