@@ -45,19 +45,10 @@ jobs:
     - name: Configure Environment Variables
       run: |
         rm src/environments/environment.prod.ts
-        ls src/environments/
-        echo $ENVIRONMENT_QA_SECRET >> src/environments/environment.prod.ts
-        ls src/environments/
+        echo $ENVIRONMENT_QA_SECRET > src/environments/environment.prod.ts
       shell: bash
       env:
         ENVIRONMENT_QA_SECRET: ${{ secrets.ENVIRONMENT_QA }}
-        
-    - name: Archive 
-      uses: actions/upload-artifact@v2
-      with:
-        name: Env
-        path: shufl-web/src/environments/environment.prod.ts
-        retention-days: 5
         
     - name: Setup Node ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -76,7 +67,7 @@ jobs:
       uses: codacy/codacy-coverage-reporter-action@0.2.0
       with:
         project-token: ${{ secrets.CODACY_TOKEN }}
-        coverage-reports: coverage/clover.xml
+        coverage-reports: shufl-web/coverage/clover.xml
       
     - name: Deploy (Firebase)
       uses: FirebaseExtended/action-hosting-deploy@v0
