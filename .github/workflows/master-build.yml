@@ -56,7 +56,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Env
-        path: src/environments/environment.prod.ts
+        path: shufl-web/src/environments/environment.prod.ts
         retention-days: 5
         
     - name: Setup Node ${{ matrix.node-version }}
