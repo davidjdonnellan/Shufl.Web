@@ -45,9 +45,9 @@ jobs:
     - name: Configure Environment Variables
       run: |
         rm src/environments/environment.prod.ts
+        ls src/environments/
         echo $ENVIRONMENT_QA > src/environments/environment.prod.ts
         ls src/environments/
-        
       shell: bash
       env:
         $ENVIRONMENT_QA: ${{ secrets.ENVIRONMENT_QA }}
