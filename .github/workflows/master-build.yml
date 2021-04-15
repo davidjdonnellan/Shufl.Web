@@ -17,6 +17,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Cache node modules
       uses: actions/cache@v1
       with:
@@ -24,6 +25,25 @@ jobs:
         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
+          
+    - name: Extract version
+      id: extract_version
+      uses: Saionaro/extract-package-version@v1.0.6
+          
+    - name: Configure Version
+      uses: microsoft/variable-substitution@v1
+      with:
+        files: './shufl-web/package.json'
+      env:
+        version: ${{ steps.extract_version.outputs.version }}-CI-${GITHUB_RUN_NUMBER}
+        
+    - name: Configure Environment Variables
+      run: |
+        rm ./shufl-web/src/environments/environment.prod.ts
+        echo $ENVIRONMENT_QA > ./shufl-web/src/environments/environment.prod.ts
+      shell: bash
+      env:
+        $ENVIRONMENT_QA: ${{ secrets.ENVIRONMENT_QA }}
           
     - name: Setup Node ${{ matrix.node-version }}
       uses: actions/setup-node@v1
