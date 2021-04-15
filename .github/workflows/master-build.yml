@@ -43,14 +43,14 @@ jobs:
         version: ${{ steps.extract_version.outputs.version }}-CI-${{ env.RUN_NUMBER }}
         
     - name: Configure Environment Variables
-      env:
-        $ENVIRONMENT_QA: ${{ secrets.ENVIRONMENT_QA }}
       run: |
         rm src/environments/environment.prod.ts
         ls src/environments/
-        echo $ENVIRONMENT_QA > src/environments/environment.prod.ts
+        echo $ENVIRONMENT_QA_SECRET > src/environments/environment.prod.ts
         ls src/environments/
       shell: bash
+      env:
+        $ENVIRONMENT_QA_SECRET: ${{ secrets.ENVIRONMENT_QA }}
         
     - name: Archive 
       uses: actions/upload-artifact@v2
