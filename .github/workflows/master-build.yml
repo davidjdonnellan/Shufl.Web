@@ -37,7 +37,7 @@ jobs:
       with:
         files: './shufl-web/package.json'
       env:
-        version: ${{ steps.extract_version.outputs.version }}'-CI-'${GITHUB_RUN_NUMBER}
+        version: ${{ steps.extract_version.outputs.version }}-CI-${{ GITHUB_RUN_NUMBER }}
         
     - name: Configure Environment Variables
       run: |
