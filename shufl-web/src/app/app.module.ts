@@ -64,14 +64,14 @@ import { AuthService } from "./services/auth/auth.service";
 import { UrlHelperService } from "./services/helpers/url-helper.service";
 import { GroupSuggestionRatingService } from "./services/group-suggestion-rating.service";
 
+const rollbarEnvironment = environment.environmentUrl === 'shufl-qa.webenv.io' ? 'qa' : 'prod';
+
 const rollbarConfig = {
     accessToken: 'a169f2008c504693b8238085f24303da',
     captureUncaught: true,
     captureUnhandledRejections: true,
     verbose: true,
-    payload: {
-        environment: environment.environmentUrl === 'shufl-qa.webenv.io' ? 'QA' : 'Prod'
-    }
+    environment: rollbarEnvironment
 };
 
 export const RollbarService = new InjectionToken<Rollbar>('rollbar');
