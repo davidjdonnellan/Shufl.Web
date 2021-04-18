@@ -48,6 +48,7 @@ import { NotFoundComponent } from './components/shared/not-found/not-found.compo
 import { PasswordResetComponent } from './components/shared/user/password-reset/password-reset.component';
 import { RegisterComponent } from './components/shared/user/register/register.component';
 import { SearchComponent } from './components/search/search.component';
+import { SpotifyCallbackComponent } from './components/user/spotify-callback/spotify-callback.component';
 import { StatusCheckerComponent } from './components/shared/status-checker/status-checker.component';
 import { TrackListComponent } from './components/shared/track-list/track-list.component';
 import { TrackListItemComponent } from './components/shared/track-list/track-list-item/track-list-item.component';
@@ -129,6 +130,7 @@ export function rollbarFactory() {
         PasswordResetComponent,
         RegisterComponent,
         SearchComponent,
+        SpotifyCallbackComponent,
         StatusCheckerComponent,
         TrackListComponent,
         TrackListItemComponent,
