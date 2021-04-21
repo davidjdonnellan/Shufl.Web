@@ -1,0 +1,7 @@
+<div class="group-members-container">
+    <h1>{{ group.name }}</h1>
+
+    <div class="group-members-list">
+        <app-group-member *ngFor="let groupMember of groupMembers" [groupMember]="groupMember"></app-group-member>
+    </div>
+</div>
