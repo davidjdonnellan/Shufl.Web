@@ -5,12 +5,25 @@
         font-size: 1.5em;
     }
 
+    .queue-button-container {
+        width: 100%;
+        height: 75px;
+
+        margin: 15px auto;
+
+        position: relative;
+    }
+
     .divider {
         height: 2px;
         margin: 15px 0;
     }
 
     .groups-list-container {
+        min-height: 100px;
+
+        position: relative;
+
         .groups-list {
             max-height: 500px;
 
@@ -53,6 +66,14 @@
                     text-align: center;
                 }
             }
+        }
+    }
+}
+
+@media (min-width: 730px) {
+    .add-to-group-modal {
+        .queue-button-container {
+            width: 60%;
         }
     }
 }

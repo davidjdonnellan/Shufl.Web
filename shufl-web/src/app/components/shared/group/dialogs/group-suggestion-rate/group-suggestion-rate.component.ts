@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, NgModel, Validators } from "@angular/forms";
 import { MatDialogRef } from "@angular/material/dialog";
-import { Router } from "@angular/router";
 import { GroupSuggestionRatingDownloadModel } from "src/app/models/download-models/group-suggestion-rating.model";
-import { GroupSuggestionDownloadModel } from "src/app/models/download-models/group-suggestion.model";
 import { GroupSuggestionRatingUploadModel } from "src/app/models/upload-models/group-suggestion-rating.model";
 import { DataService } from "src/app/services/data.service";
 
@@ -40,6 +38,8 @@ export class GroupSuggestionRateComponent implements OnInit {
 
     groupId!: string;
     groupSuggestionId!: string;
+
+    groupSuggestionRating!: GroupSuggestionRatingDownloadModel;
     
     rateGroupSuggestionForm: FormGroup = new FormGroup({});
 
@@ -56,7 +56,24 @@ export class GroupSuggestionRateComponent implements OnInit {
         });
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        if (this.groupSuggestionRating != null) {
+            this.rateGroupSuggestionForm.setValue({
+                overallRating: this.groupSuggestionRating.overallRating,
+                lyricsRating: this.groupSuggestionRating.lyricsRating,
+                vocalsRating: this.groupSuggestionRating.vocalsRating,
+                instrumentalsRating: this.groupSuggestionRating.instrumentalsRating,
+                compositionRating: this.groupSuggestionRating.compositionRating,
+                comment: this.groupSuggestionRating.comment,
+            });
+
+            this.overallRatingPopulated = this.groupSuggestionRating.overallRating != null;
+            this.lyricsRatingPopulated = this.groupSuggestionRating.lyricsRating != null;
+            this.vocalsRatingPopulated = this.groupSuggestionRating.vocalsRating != null;
+            this.instrumentalsRatingPopulated = this.groupSuggestionRating.instrumentalsRating != null;
+            this.compositionRatingPopulated = this.groupSuggestionRating.compositionRating != null;
+        }
+    }
     
     public changeInputState(inputName: string, active: boolean): void {
         if (inputName === 'overallRating') {
@@ -83,34 +100,61 @@ export class GroupSuggestionRateComponent implements OnInit {
             this.commentActive = active;
         }
     }
+
+    public validateRating(event: any): void {
+        if (event.target.value.length >= 3 || parseInt(event.target.value) === 0 || parseInt(event.target.value) === 10) {
+            event.preventDefault();
+        }
+    }
     
     public async rateGroupSuggestionAsync(createGroupFormData: any): Promise<void> {
-        if (!this.isLoading) {
+        if (!this.isLoading && this.rateGroupSuggestionForm.valid) {
             try {
                 this.isLoading = true;
                 this.formErrorMessageVisible = false;
 
-                var newGroup = new GroupSuggestionRatingUploadModel(
-                    this.groupId,
-                    this.groupSuggestionId,
-                    createGroupFormData['overallRating'],
-                    createGroupFormData['lyricsRating'],
-                    createGroupFormData['vocalsRating'],
-                    createGroupFormData['instrumentalsRating'],
-                    createGroupFormData['compositionRating'],
-                    createGroupFormData['comment']
-                );
+                if (this.groupSuggestionRating == null) {
+                    var newGroupSuggestionRating = new GroupSuggestionRatingUploadModel(
+                        this.groupId,
+                        this.groupSuggestionId,
+                        createGroupFormData['overallRating'],
+                        createGroupFormData['lyricsRating'],
+                        createGroupFormData['vocalsRating'],
+                        createGroupFormData['instrumentalsRating'],
+                        createGroupFormData['compositionRating'],
+                        createGroupFormData['comment']
+                    );
+        
+                    var createdGroupSuggestionRating = await this.dataService.postAsync<GroupSuggestionRatingDownloadModel>('GroupSuggestionRating/Create', newGroupSuggestionRating, GroupSuggestionRatingDownloadModel);
     
-                var groupSuggestionRating = await this.dataService.postAsync<GroupSuggestionRatingDownloadModel>('GroupSuggestionRating/Create', newGroup, GroupSuggestionRatingDownloadModel);
-
-                if (groupSuggestionRating != null) {
-                    this.dialogRef.close({data: groupSuggestionRating});
+                    if (createdGroupSuggestionRating != null) {
+                        this.dialogRef.close({data: createdGroupSuggestionRating});
+                    }
+                }
+                else {
+                    var updateGroupSuggestionRating = new GroupSuggestionRatingUploadModel(
+                        this.groupId,
+                        this.groupSuggestionId,
+                        createGroupFormData['overallRating'],
+                        createGroupFormData['lyricsRating'],
+                        createGroupFormData['vocalsRating'],
+                        createGroupFormData['instrumentalsRating'],
+                        createGroupFormData['compositionRating'],
+                        createGroupFormData['comment']
+                    );
+                    updateGroupSuggestionRating.groupSuggestionRatingId = this.groupSuggestionRating.id;
+        
+                    var updatedGroupSuggestionRating = await this.dataService.postAsync<GroupSuggestionRatingDownloadModel>('GroupSuggestionRating/Edit', updateGroupSuggestionRating, GroupSuggestionRatingDownloadModel);
+    
+                    if (updatedGroupSuggestionRating != null) {
+                        this.dialogRef.close({data: updatedGroupSuggestionRating});
+                    }
                 }
             }
             catch (err) {
-                console.log(err);
                 this.formErrorMessage = 'An unexpected error occured, please try again';
                 this.formErrorMessageVisible = true;
+                throw err;
             }
             finally {
                 this.isLoading = false;

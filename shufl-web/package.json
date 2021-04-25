@@ -1,9 +1,10 @@
 {
     "name": "shufl-web",
-    "version": "1.0.0",
+    "version": "1.2.0",
     "scripts": {
         "ng": "ng",
         "start": "ng serve --ssl --ssl-key c:\\Certificates\\localhost.key --ssl-cert c:\\Certificates\\localhost.crt",
+        "start:host": "ng serve --ssl --ssl-key c:\\Certificates\\localhost.key --ssl-cert c:\\Certificates\\localhost.crt --host 192.168.1.106",
         "build": "ng build",
         "build:prod": "ng build --prod",
         "cypress": "concurrently \"ng serve\" \"cypress open\"",
@@ -24,6 +25,8 @@
         "@angular/platform-browser-dynamic": "~11.1.2",
         "@angular/router": "~11.1.2",
         "@angular/service-worker": "~11.1.2",
+        "ngx-toastr": "^13.2.1",
+        "rollbar": "^2.21.1",
         "rxjs": "~6.6.0",
         "sha.js": "^2.4.11",
         "tslib": "^2.0.0",

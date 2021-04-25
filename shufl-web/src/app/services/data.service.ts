@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 import { environment } from 'src/environments/environment';
 import { IUploadModel } from "../models/upload-models/upload-model.interface";
-
 
 @Injectable({
     providedIn: 'root'
 })
 export class DataService {
 
-    constructor(private httpClient: HttpClient) { }
+    constructor(private httpClient: HttpClient,
+                private router: Router,
+                private toastr: ToastrService) { }
 
     private createHttpOptions(): Object {
         let httpOptions = {
@@ -35,7 +38,7 @@ export class DataService {
         return httpOptions;
     }
 
-    public async getAsync<T>(endpoint: string, type: { new(): T; } | null = null, retry: boolean = false): Promise<T> {
+    public async getAsync<T>(endpoint: string, type: { new(): T; } | null = null, blockToast: boolean = false): Promise<T> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -50,11 +53,16 @@ export class DataService {
                             resolve(data);
                         }
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.getAsync(endpoint, type, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
@@ -62,7 +70,7 @@ export class DataService {
         });
     }
 
-    public async getArrayAsync<T>(endpoint: string, type: { new(): T; }, retry: boolean = false): Promise<Array<T>> {
+    public async getArrayAsync<T>(endpoint: string, type: { new(): T; }, blockToast: boolean = false): Promise<Array<T>> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -77,11 +85,16 @@ export class DataService {
                             resolve(data);
                         }
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.getArrayAsync(endpoint, type, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
@@ -89,7 +102,7 @@ export class DataService {
         });
     }
 
-    public async postAsync<T>(endpoint: string, uploadModel: IUploadModel, type: { new(): T; }, retry: boolean = false): Promise<T> {
+    public async postAsync<T>(endpoint: string, uploadModel: IUploadModel, type: { new(): T; }, blockToast: boolean = false): Promise<T> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -100,11 +113,16 @@ export class DataService {
                         Object.assign(mappedData, data);
                         resolve(mappedData as T);
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.postAsync(endpoint, uploadModel, type, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
@@ -112,7 +130,7 @@ export class DataService {
         });
     }
 
-    public async postWithoutBodyAsync(endpoint: string, retry: boolean = false): Promise<any> {
+    public async postWithoutBodyAsync(endpoint: string, blockToast: boolean = false): Promise<any> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -121,11 +139,16 @@ export class DataService {
                     (data) => {
                         resolve(data);
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.postWithoutBodyAsync(endpoint, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
@@ -133,7 +156,7 @@ export class DataService {
         });
     }
 
-    public async postWithoutResponseAsync(endpoint: string, uploadModel: IUploadModel, retry: boolean = false): Promise<void> {
+    public async postWithoutResponseAsync(endpoint: string, uploadModel: IUploadModel, blockToast: boolean = false): Promise<void> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -142,11 +165,16 @@ export class DataService {
                     (_) => {
                         resolve();
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.postWithoutResponseAsync(endpoint, uploadModel, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
@@ -154,7 +182,7 @@ export class DataService {
         });
     }
 
-    public async postWithoutBodyOrResponseAsync(endpoint: string, retry: boolean = false): Promise<void> {
+    public async postWithoutBodyOrResponseAsync(endpoint: string, blockToast: boolean = false): Promise<void> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -163,11 +191,16 @@ export class DataService {
                     (_) => {
                         resolve();
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.postWithoutBodyOrResponseAsync(endpoint, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
@@ -175,7 +208,7 @@ export class DataService {
         });
     }
 
-    public async postWithStringResponseAsync(endpoint: string, uploadModel: IUploadModel, retry: boolean = false): Promise<any> {
+    public async postWithStringResponseAsync(endpoint: string, uploadModel: IUploadModel, blockToast: boolean = false): Promise<any> {
         return new Promise((resolve, reject) => {
             let url = `${environment.apiUrl}/${endpoint}`;
 
@@ -184,16 +217,72 @@ export class DataService {
                     (data) => {
                         resolve(data);
                     },
-                    async (err) => {
-                        if (err instanceof HttpErrorResponse && err.status === 500 && retry === false) {
-                            resolve(await this.postWithoutBodyAsync(endpoint, true));
+                    (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
                         }
                         else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
                             reject(err);
                         }
                     }
                 );
         });
+    }
+
+    public async deleteAsync(endpoint: string, blockToast: boolean = false): Promise<any> {
+        return new Promise((resolve, reject) => {
+            let url = `${environment.apiUrl}/${endpoint}`;
+
+            this.httpClient.delete(url, this.createStringHttpOptions())
+                .subscribe(
+                    (data) => {
+                        resolve(data);
+                    },
+                    async (err) => {
+                        if (err instanceof HttpErrorResponse) {
+                            if (!blockToast) {
+                                this.handleError(err);
+                            }
+                            
+                            reject(err);
+                        }
+                        else {
+                            this.toastr.error('There has been an error processing your request', 'Error');
+                            reject(err);
+                        }
+                    }
+                );
+        });
+    }
+
+    public handleError(error: HttpErrorResponse) {
+        if (error.status === 400) {
+            this.toastr.error('There has been an error processing your request', 'Error');
+        }
+        else if (error.status === 401) {
+            this.toastr.warning('You have been logged out', 'Warning');
+
+            localStorage.removeItem('Username');
+            localStorage.removeItem('DisplayName');
+            localStorage.removeItem('FirstName');
+            localStorage.removeItem('LastName');
+            localStorage.removeItem('PictureUrl');
+            localStorage.removeItem('SpotifyMarket');
+            localStorage.removeItem('Token');
+
+            this.router.navigate(['/login']);
+        }
+        else if (error.status === 403) {
+            this.toastr.warning('You are not allowed to perform this action', 'Warning');
+        }
+        else {
+            this.toastr.error('There has been an error processing your request', 'Error');
+        }
     }
 
     public mapJsonToObject<T>(jsonObject: any, type: { new(): T; }): T {

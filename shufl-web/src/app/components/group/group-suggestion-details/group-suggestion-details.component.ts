@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
+import { Subscription } from "rxjs";
+import { ToastrService } from "ngx-toastr";
+
 import { AlbumDownloadModel } from "src/app/models/download-models/album.model";
-import { ArtistDownloadModel } from "src/app/models/download-models/artist.model";
 import { GroupSuggestionRatingDownloadModel } from "src/app/models/download-models/group-suggestion-rating.model";
 import { RatingDownloadModel } from "src/app/models/download-models/rating.model";
 import { GroupSuggestionDownloadModel } from "src/app/models/download-models/group-suggestion.model";
@@ -11,6 +13,9 @@ import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { GroupSuggestionRateComponent } from "../../shared/group/dialogs/group-suggestion-rate/group-suggestion-rate.component";
 import { GroupSuggestionUserRatingListComponent } from "./group-suggestion-user-rating-list/group-suggestion-user-rating-list.component";
 import { GroupSuggestionRatingComponent } from "../../shared/group/group-suggestion-rating/group-suggestion-rating.component";
+import { GroupSuggestionRatingService } from "src/app/services/group-suggestion-rating.service";
+import { YesNoDialogComponent } from "../../shared/dialogs/yes-no-dialog/yes-no-dialog.component";
+import { HttpErrorResponse } from "@angular/common/http";
 
 @Component({
     selector: 'app-group-suggestion-details',
@@ -20,7 +25,7 @@ import { GroupSuggestionRatingComponent } from "../../shared/group/group-suggest
         '../../../../assets/scss/music-details.scss'
     ]
 })
-export class GroupSuggestionDetailsComponent implements OnInit {
+export class GroupSuggestionDetailsComponent implements OnInit, OnDestroy {
     @ViewChild(GroupSuggestionUserRatingListComponent)
     private groupSuggestionUserRatingListComponent!: GroupSuggestionUserRatingListComponent;
     @ViewChild(GroupSuggestionRatingComponent)
@@ -29,26 +34,35 @@ export class GroupSuggestionDetailsComponent implements OnInit {
     isLoading: boolean = true;
 
     album!: AlbumDownloadModel;
+
+    spotifyUsername!: string | null;
     
     overallRating!: RatingDownloadModel;
 
-    genres: string[] = [
-        "alt-rock",
-        "indie-rock"
-    ];
+    genres!: string[];
 
     groupSuggestion!: GroupSuggestionDownloadModel;
 
     groupId!: string;
     groupSuggestionId!: string;
 
+    userHasRatedSuggestion: boolean = false;
+
+    groupSuggestionRatingSubscription!: Subscription;
+
+    dialogOpen: boolean = false;
+
     constructor(private route: ActivatedRoute,
                 private router: Router,
                 private dialog: MatDialog,
+                private toastr: ToastrService,
                 private dataService: DataService,
-                private urlHelperService: UrlHelperService) { }
+                private urlHelperService: UrlHelperService,
+                private groupSuggestionRatingService: GroupSuggestionRatingService) { }
 
     ngOnInit(): void {
+        this.spotifyUsername = localStorage.getItem('SpotifyUsername');
+
         var routeParams = this.route.snapshot.params;
 
         if (this.urlHelperService.isRouteParamObjectValid(routeParams) && 
@@ -59,6 +73,18 @@ export class GroupSuggestionDetailsComponent implements OnInit {
                 this.groupSuggestionId = routeParams.groupSuggestionId;
 
                 this.getGroupSuggestionAsync(this.groupId, this.groupSuggestionId);
+                this.groupSuggestionRatingSubscription = this.groupSuggestionRatingService.getRatingSubject().subscribe((data) => {
+                    if (data != null) {
+                        if (data.data != null && data.data instanceof GroupSuggestionRatingDownloadModel) {
+                            if (data.isDelete) {
+                                this.deleteRating(data.data);
+                            }
+                            else {
+                                this.addOrUpdateRating(data.data);
+                            }
+                        }
+                    }
+                });
             }
             else {
                 this.router.navigate([`/group/${this.groupId}`]);
@@ -78,18 +104,21 @@ export class GroupSuggestionDetailsComponent implements OnInit {
                 this.groupSuggestion.groupSuggestionRatings, GroupSuggestionRatingDownloadModel
             );
 
-            this.album = this.groupSuggestion.album;//this.dataService.mapJsonToObject<Album>(this.groupSuggestion.album, Album);
-            this.overallRating = this.calculateOverallRating(this.groupSuggestion.groupSuggestionRatings);
+            this.album = this.groupSuggestion.album;
+            this.overallRating = this.calculateOverallRating();
+
+            var username = localStorage.getItem('Username');
+            this.userHasRatedSuggestion = this.groupSuggestion.groupSuggestionRatings.find((gsr) => gsr.createdBy.username === username) != null;
         }
         catch (err) {
-            console.log(err);
+            throw err;
         }
         finally {
             this.isLoading = false;
         }
     }
     
-    private calculateOverallRating(ratings: GroupSuggestionRatingDownloadModel[]): RatingDownloadModel {
+    private calculateOverallRating(): RatingDownloadModel {
         if (this.groupSuggestion.groupSuggestionRatings != null && this.groupSuggestion.groupSuggestionRatings.length !== 0) {
             var overallRatings = this.groupSuggestion.groupSuggestionRatings.map((gsr) => gsr.overallRating);
             var overallTotal = overallRatings.reduce((sum, current) => sum + current);
@@ -120,6 +149,7 @@ export class GroupSuggestionDetailsComponent implements OnInit {
                 compositionRating,
                 "",
                 "",
+                "",
                 ""
             );
 
@@ -141,6 +171,7 @@ export class GroupSuggestionDetailsComponent implements OnInit {
                 0,
                 "",
                 "",
+                "",
                 ""
             );
 
@@ -159,29 +190,131 @@ export class GroupSuggestionDetailsComponent implements OnInit {
     }
 
     public rateButtonClicked(): void {
-        const dialogConfig = new MatDialogConfig();
+        this.addOrUpdateRating(null);
+    }
 
-        dialogConfig.disableClose = false;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '90%';
-        dialogConfig.maxWidth = "800px";
-        dialogConfig.height = 'fit-content';
-        dialogConfig.closeOnNavigation = true;
+    public addOrUpdateRating(existingGroupSuggestionRating: GroupSuggestionRatingDownloadModel | null): void {
+        if (!this.dialogOpen) {
+            const dialogConfig = new MatDialogConfig();
 
-        let instance = this.dialog.open(GroupSuggestionRateComponent, dialogConfig);
-        instance.componentInstance.groupId = this.groupId;
-        instance.componentInstance.groupSuggestionId = this.groupSuggestionId;
-
-        instance.afterClosed().subscribe((data) => {
-            var groupSuggestionRating = data.data;
-            
-            if (groupSuggestionRating != null && groupSuggestionRating instanceof GroupSuggestionRatingDownloadModel) {
-                this.groupSuggestion.groupSuggestionRatings.push(groupSuggestionRating);
-
-                this.groupSuggestionUserRatingListComponent.addNewRating(groupSuggestionRating);
-                this.groupSuggestionRatingComponent.updateRating(this.calculateOverallRating(this.groupSuggestion.groupSuggestionRatings));
+            dialogConfig.disableClose = false;
+            dialogConfig.autoFocus = true;
+            dialogConfig.width = '90%';
+            dialogConfig.maxWidth = "800px";
+            dialogConfig.height = 'fit-content';
+            dialogConfig.closeOnNavigation = true;
+    
+            let instance = this.dialog.open(GroupSuggestionRateComponent, dialogConfig);
+            this.dialogOpen = true;
+    
+            if (existingGroupSuggestionRating == null) {
+                instance.componentInstance.groupId = this.groupId;
+                instance.componentInstance.groupSuggestionId = this.groupSuggestionId;
             }
-        });
+            else {
+                instance.componentInstance.groupSuggestionRating = existingGroupSuggestionRating;
+            }
+    
+            instance.afterClosed().subscribe((data) => {
+                if (data != null) {
+                    var groupSuggestionRating = data.data;
+                
+                    if (groupSuggestionRating != null && groupSuggestionRating instanceof GroupSuggestionRatingDownloadModel) {
+                        if (existingGroupSuggestionRating == null) {
+                            this.groupSuggestion.groupSuggestionRatings.push(groupSuggestionRating);
+    
+                            this.groupSuggestionUserRatingListComponent.addNewRating(groupSuggestionRating);
+                            this.groupSuggestionRatingComponent.updateRating(this.calculateOverallRating());
+    
+                            this.userHasRatedSuggestion = true;
+                        }
+                        else {
+                            var existingIndex = this.groupSuggestion.groupSuggestionRatings.map((gsr) => gsr.id).indexOf(groupSuggestionRating.id);
+    
+                            this.groupSuggestion.groupSuggestionRatings[existingIndex] = groupSuggestionRating;
+                            this.groupSuggestionUserRatingListComponent.updateRating(groupSuggestionRating);
+    
+                            this.groupSuggestionRatingComponent.updateRating(this.calculateOverallRating());
+                        }
+                    }
+                }
+
+                this.dialogOpen = false;
+            });
+        }
+    }
+
+    public deleteRating(groupSuggestionRating: GroupSuggestionRatingDownloadModel): void {
+        if (!this.dialogOpen) {
+            const dialogConfig = new MatDialogConfig();
+
+            dialogConfig.disableClose = false;
+            dialogConfig.autoFocus = true;
+            dialogConfig.width = '90%';
+            dialogConfig.maxWidth = "800px";
+            dialogConfig.height = 'fit-content';
+            dialogConfig.closeOnNavigation = true;
+
+            let instance = this.dialog.open(YesNoDialogComponent, dialogConfig);
+            instance.componentInstance.modalMessage = "Are you sure you want to delete your rating?";
+            instance.componentInstance.coloursInverted = true;
+            this.dialogOpen = true;
+
+            instance.afterClosed().subscribe(async (data) => {
+                if (data != null && data.isPositive != null) {
+                    if (data.isPositive) {
+                        await this.removeRatingAsync(groupSuggestionRating.id);
+
+                        var existingIndex = this.groupSuggestion.groupSuggestionRatings.map((gsr) => gsr.id).indexOf(groupSuggestionRating.id);
+
+                        this.groupSuggestion.groupSuggestionRatings.splice(existingIndex, 1);
+                        this.groupSuggestionUserRatingListComponent.removeRating(groupSuggestionRating.id);
+
+                        this.groupSuggestionRatingComponent.updateRating(this.calculateOverallRating());
+                        this.userHasRatedSuggestion = false;
+                    }
+                }
+
+                this.dialogOpen = false;
+            });
+        }
+    }
+
+    public async removeRatingAsync(groupSuggestionRatingId: string): Promise<void> {
+        await this.dataService.deleteAsync(`GroupSuggestionRating/Delete?groupSuggestionRatingId=${groupSuggestionRatingId}`);
+    }
+    
+    public async queueAlbumAsync(): Promise<void> {
+        try {
+            this.toastr.info(`Queueing ${this.album.name}...`, 'Queueing Album');
+
+            await this.dataService.postWithoutBodyOrResponseAsync(`Spotify/QueueAlbum?albumId=${this.album.id}`, true);
+
+            this.toastr.clear();
+            this.toastr.success(`${this.album.name} has been added to your queue`, 'Added to Queue');
+        }
+        catch (err) {
+            if (err instanceof HttpErrorResponse) {
+                if (err.status === 400) {
+                    if (err.error.errorType != null && err.error.errorType === 'SpotifyNoActiveDevicesException') {
+                        this.toastr.clear();
+                        this.toastr.warning('There are no active devices to add this album to the queue', 'Error Queueing Album');
+                    }
+                    else {
+                        this.dataService.handleError(err);
+                    }
+                }
+                else {
+                    this.dataService.handleError(err);
+                }
+            }
+
+            throw err;
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.groupSuggestionRatingSubscription.unsubscribe();
     }
 
 }

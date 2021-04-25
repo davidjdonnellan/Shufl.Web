@@ -8,10 +8,7 @@ import { DataService } from "src/app/services/data.service";
 @Component({
     selector: 'app-group-create',
     templateUrl: './group-create.component.html',
-    styleUrls: [
-        './group-create.component.scss',
-        '../../../../../../assets/scss/form.scss'
-    ]
+    styleUrls: ['../../../../../../assets/scss/form.scss']
 })
 export class GroupCreateComponent implements OnInit {
     isLoading: boolean = false;
@@ -67,9 +64,9 @@ export class GroupCreateComponent implements OnInit {
                 }
             }
             catch (err) {
-                console.log(err);
                 this.formErrorMessage = 'An unexpected error occured, please try again';
                 this.formErrorMessageVisible = true;
+                throw err;
             }
         }
     }

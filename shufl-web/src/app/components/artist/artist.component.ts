@@ -18,7 +18,7 @@ import { UrlHelperService } from "src/app/services/helpers/url-helper.service";
 })
 export class ArtistComponent implements OnInit {
     genres: ArtistGenreDownloadModel[] = [];
-    artist: ArtistDownloadModel = new ArtistDownloadModel();
+    artist!: ArtistDownloadModel;
     artistImageUrl: string = '';
     isLoading: boolean = true;
 
@@ -48,7 +48,7 @@ export class ArtistComponent implements OnInit {
             this.titleService.setTitle(this.artist.name);
         }
         catch (err) {
-            console.log(err);
+            throw err;
         }
         finally {
             this.isLoading = false;

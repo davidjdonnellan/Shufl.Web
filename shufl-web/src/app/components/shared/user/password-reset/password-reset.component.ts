@@ -10,10 +10,7 @@ import { DataService } from "src/app/services/data.service";
 @Component({
     selector: 'app-password-reset',
     templateUrl: './password-reset.component.html',
-    styleUrls: [
-        './password-reset.component.scss',
-        '../../../../../assets/scss/user-form.scss'
-    ]
+    styleUrls: ['../../../../../assets/scss/user-form.scss']
 })
 export class PasswordResetComponent implements OnInit {
     passwordResetToken!: string;
@@ -96,6 +93,7 @@ export class PasswordResetComponent implements OnInit {
         }
         catch (err) {
             this.isResetTokenValid = false;
+            throw err;
         }
     }
 
@@ -158,9 +156,9 @@ export class PasswordResetComponent implements OnInit {
                 this.resetRequestSentSuccessfully = true;
             }
             catch (err) {
-                console.log(err);
                 this.resetRequestSentSuccessfully = false;
                 this.formErrorMessageVisible = true;
+                throw err;
             }
             finally {
                 this.isLoading = false;
@@ -198,6 +196,8 @@ export class PasswordResetComponent implements OnInit {
                 this.formErrorMessageVisible = true;
 
                 await this.checkResetTokenValidAsync(this.passwordResetToken);
+                
+                throw err;
             }
             finally {
                 this.isLoading = false;
